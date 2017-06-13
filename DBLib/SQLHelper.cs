@@ -8,7 +8,7 @@ namespace DSWeb.DAL
     public class SQLHelper
     {
         //连接字符串
-        static string strConn = ConfigurationManager.ConnectionStrings["connstr"].ConnectionString;
+        static string strConn = ConfigurationManager.ConnectionStrings["connstring"].ConnectionString;
 
 
 
