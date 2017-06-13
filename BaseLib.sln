@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loglib", "Loglib\Loglib.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBLib", "DBLib\DBLib.csproj", "{505CD7B2-95B6-4F8E-9F60-2A74F1DE392E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rlib", "Rlib\Rlib.csproj", "{C6EF5ECD-9FAA-47AF-8FE8-B9B50CDCC51C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pylib", "Pylib\Pylib.csproj", "{CEE4AC90-EBCB-48D9-B69C-7EA122A5475B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{505CD7B2-95B6-4F8E-9F60-2A74F1DE392E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{505CD7B2-95B6-4F8E-9F60-2A74F1DE392E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{505CD7B2-95B6-4F8E-9F60-2A74F1DE392E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6EF5ECD-9FAA-47AF-8FE8-B9B50CDCC51C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6EF5ECD-9FAA-47AF-8FE8-B9B50CDCC51C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6EF5ECD-9FAA-47AF-8FE8-B9B50CDCC51C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6EF5ECD-9FAA-47AF-8FE8-B9B50CDCC51C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEE4AC90-EBCB-48D9-B69C-7EA122A5475B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEE4AC90-EBCB-48D9-B69C-7EA122A5475B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEE4AC90-EBCB-48D9-B69C-7EA122A5475B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEE4AC90-EBCB-48D9-B69C-7EA122A5475B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
