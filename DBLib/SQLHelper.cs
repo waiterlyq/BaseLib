@@ -3,12 +3,12 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
 
-namespace DSWeb.DAL
+namespace DBLib
 {
     public class SQLHelper
     {
         //连接字符串
-        static string strConn = ConfigurationManager.ConnectionStrings["connstr"].ConnectionString;
+        static string strConn = ConfigurationManager.ConnectionStrings["connstring"].ConnectionString;
 
 
 
