@@ -16,13 +16,24 @@ namespace Rlib
     /// </summary>
     public class RClass : IDisposable
     {
-       public REngine engine;
+        public REngine engine;
 
         public RClass()
         {
             REngine.SetEnvironmentVariables();
-            engine = REngine.GetInstance();
-            engine.Initialize();
+            if (engine == null)
+            {
+                engine = REngine.GetInstance();
+                engine.Initialize();
+            }
+            else
+            {
+                if (!engine.IsRunning)
+                {
+                    engine = REngine.GetInstance();
+                    engine.Initialize();
+                }
+            }
         }
 
         /// <summary>
@@ -39,7 +50,7 @@ namespace Rlib
             }
             catch (Exception e)
             {
-                MyLog.writeLog("ERROR",logtype.Error,e);
+                MyLog.writeLog("ERROR", logtype.Error, e);
                 return "ERROR";
             }
             return strResult;
@@ -79,11 +90,11 @@ namespace Rlib
             }
         }
 
-        
+
 
         public void Dispose()
         {
-            engine.Dispose();
+            engine.ClearGlobalEnvironment();
         }
     }
 }
