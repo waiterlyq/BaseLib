@@ -116,7 +116,7 @@ namespace Rlib
             string str1, str2, str3;
             if (ir > 0)
             {
-                DtPy = NPy.getPyDt(dt, ic);
+                DtPy = NPy.getDtPy(dt, ic);
                 str1 = DfName + "<-data.frame(";
                 str2 = "";
                 for (int i = 0; i < ic; i++)

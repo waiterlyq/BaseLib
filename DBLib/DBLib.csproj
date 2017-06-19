@@ -44,6 +44,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SQLHelper.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Loglib\Loglib.csproj">
+      <Project>{acef5dd9-ac1f-43fd-a718-b44cf28bd140}</Project>
+      <Name>Loglib</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
