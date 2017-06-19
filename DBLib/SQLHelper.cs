@@ -2,6 +2,7 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
+using Loglib;
 
 namespace DBLib
 {
@@ -56,6 +57,7 @@ namespace DBLib
                 }
                 catch(Exception e)
                 {
+                    MyLog.writeLog("ERROR", logtype.Error, e);
                     return null;
                 }
             }
@@ -92,18 +94,27 @@ namespace DBLib
         /// <returns>DataSet对象</returns>
         public  DataSet GetDataSet(string strSQL, SqlParameter[] pas, CommandType cmdtype)
         {
-            DataSet dt = new DataSet(); ;
-            using (SqlConnection conn = new SqlConnection(strConn))
+            DataSet dt = new DataSet();
+            try
             {
-                SqlDataAdapter da = new SqlDataAdapter(strSQL, conn);
-                da.SelectCommand.CommandType = cmdtype;
-                da.SelectCommand.CommandTimeout = 1800;
-                if (pas != null)
+                using (SqlConnection conn = new SqlConnection(strConn))
                 {
-                    da.SelectCommand.Parameters.AddRange(pas);
+                    SqlDataAdapter da = new SqlDataAdapter(strSQL, conn);
+                    da.SelectCommand.CommandType = cmdtype;
+                    da.SelectCommand.CommandTimeout = 1800;
+                    if (pas != null)
+                    {
+                        da.SelectCommand.Parameters.AddRange(pas);
+                    }
+                    da.Fill(dt);
                 }
-                da.Fill(dt);
             }
+            catch(Exception e)
+            {
+                MyLog.writeLog("ERROR", logtype.Error, e);
+                return null;
+            }
+           
             return dt;
         }
         #endregion
@@ -147,19 +158,28 @@ namespace DBLib
         public  int ExcuteSQL(string strSQL, SqlParameter[] paras, CommandType cmdType)
         {
             int i = 0;
-            using (SqlConnection conn = new SqlConnection(strConn))
+            try
             {
-                SqlCommand cmd = new SqlCommand(strSQL, conn);
-                cmd.CommandType = cmdType;
-                cmd.CommandTimeout = 1800;
-                if (paras != null)
+                using (SqlConnection conn = new SqlConnection(strConn))
                 {
-                    cmd.Parameters.AddRange(paras);
+                    SqlCommand cmd = new SqlCommand(strSQL, conn);
+                    cmd.CommandType = cmdType;
+                    cmd.CommandTimeout = 1800;
+                    if (paras != null)
+                    {
+                        cmd.Parameters.AddRange(paras);
+                    }
+                    conn.Open();
+                    i = cmd.ExecuteNonQuery();
+                    conn.Close();
                 }
-                conn.Open();
-                i = cmd.ExecuteNonQuery();
-                conn.Close();
             }
+            catch(Exception e)
+            {
+                MyLog.writeLog("ERROR", logtype.Error, e);
+                return i;
+            }
+            
             return i;
 
         }
@@ -201,18 +221,26 @@ namespace DBLib
         public  int ExcuteScalarSQL(string strSQL, SqlParameter[] paras, CommandType cmdType)
         {
             int i = 0;
-            using (SqlConnection conn = new SqlConnection(strConn))
+            try
             {
-                SqlCommand cmd = new SqlCommand(strSQL, conn);
-                cmd.CommandType = cmdType;
-                if (paras != null)
+                using (SqlConnection conn = new SqlConnection(strConn))
                 {
-                    cmd.Parameters.AddRange(paras);
+                    SqlCommand cmd = new SqlCommand(strSQL, conn);
+                    cmd.CommandType = cmdType;
+                    if (paras != null)
+                    {
+                        cmd.Parameters.AddRange(paras);
+                    }
+                    conn.Open();
+                    i = Convert.ToInt32(cmd.ExecuteScalar());
+                    conn.Close();
                 }
-                conn.Open();
-                i = Convert.ToInt32(cmd.ExecuteScalar());
-                conn.Close();
             }
+            catch(Exception e)
+            {
+                MyLog.writeLog("ERROR", logtype.Error, e);
+                return i;
+            }     
             return i;
 
         }
@@ -281,19 +309,27 @@ namespace DBLib
         public  object GetObject(string strSQL, SqlParameter[] paras, CommandType cmdtype)
         {
             object o = null;
-            using (SqlConnection conn = new SqlConnection(strConn))
+            try
             {
-                SqlCommand cmd = new SqlCommand(strSQL, conn);
-                cmd.CommandType = cmdtype;
-                if (paras != null)
+                using (SqlConnection conn = new SqlConnection(strConn))
                 {
-                    cmd.Parameters.AddRange(paras);
+                    SqlCommand cmd = new SqlCommand(strSQL, conn);
+                    cmd.CommandType = cmdtype;
+                    if (paras != null)
+                    {
+                        cmd.Parameters.AddRange(paras);
 
+                    }
+
+                    conn.Open();
+                    o = cmd.ExecuteScalar();
+                    conn.Close();
                 }
-
-                conn.Open();
-                o = cmd.ExecuteScalar();
-                conn.Close();
+            }
+            catch(Exception e)
+            {
+                MyLog.writeLog("ERROR", logtype.Error, e);
+                return o;
             }
             return o;
 
@@ -359,16 +395,26 @@ namespace DBLib
         public  SqlDataReader GetReader(string strSQL, SqlParameter[] paras, CommandType cmdtype)
         {
             SqlDataReader sqldr = null;
-            SqlConnection conn = new SqlConnection(strConn);
-            SqlCommand cmd = new SqlCommand(strSQL, conn);
-            cmd.CommandType = cmdtype;
-            if (paras != null)
+            try
             {
-                cmd.Parameters.AddRange(paras);
+               
+                SqlConnection conn = new SqlConnection(strConn);
+                SqlCommand cmd = new SqlCommand(strSQL, conn);
+                cmd.CommandType = cmdtype;
+                if (paras != null)
+                {
+                    cmd.Parameters.AddRange(paras);
+                }
+                conn.Open();
+                //CommandBehavior.CloseConnection的作用是如果关联的DataReader对象关闭，则连接自动关闭
+                sqldr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
             }
-            conn.Open();
-            //CommandBehavior.CloseConnection的作用是如果关联的DataReader对象关闭，则连接自动关闭
-            sqldr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+            catch(Exception e)
+            {
+                MyLog.writeLog("ERROR", logtype.Error, e);
+                return sqldr;
+            }
+            
             return sqldr;
         }
 
@@ -404,6 +450,7 @@ namespace DBLib
             }
             catch (Exception ex)
             {
+                MyLog.writeLog("ERROR", logtype.Error, ex);
                 throw ex;
             }
             finally
@@ -441,6 +488,7 @@ namespace DBLib
             }
             catch (Exception ex)
             {
+                MyLog.writeLog("ERROR", logtype.Error, ex);
                 throw ex;
             }
             finally
