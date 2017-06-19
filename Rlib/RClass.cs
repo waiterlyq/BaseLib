@@ -16,24 +16,13 @@ namespace Rlib
     /// </summary>
     public class RClass : IDisposable
     {
-        public REngine engine;
+        public static REngine engine;
 
         public RClass()
         {
             REngine.SetEnvironmentVariables();
-            if (engine == null)
-            {
-                engine = REngine.GetInstance();
-                engine.Initialize();
-            }
-            else
-            {
-                if (!engine.IsRunning)
-                {
-                    engine = REngine.GetInstance();
-                    engine.Initialize();
-                }
-            }
+            engine = REngine.GetInstance();
+            engine.Initialize();
         }
 
         /// <summary>
