@@ -1,8 +1,33 @@
 ﻿using System.Data;
+using System.Collections.Generic;
+using System.Threading;
 using Pylib;
 
 namespace Rlib
 {
+
+    public class RColList : List<string>
+    {
+        public static RColList _instance;
+
+        private static readonly object lockHelper = new object();
+
+        public RColList() { }
+
+        public static RColList getInstance()
+        {
+            if (_instance == null)
+            {
+                lock (lockHelper)
+                {
+                    if (_instance == null)
+                        _instance = new RColList();
+                }
+            }
+            return _instance;
+        }
+
+    }
     /// <summary>
     /// R环境中DataFrame对象C#中适配
     /// </summary>
@@ -114,33 +139,54 @@ namespace Rlib
             int ir = dt.Rows.Count;
             int ic = dt.Columns.Count;
             string str1, str2, str3;
+            List<Thread> lt = new List<Thread>();
             if (ir > 0)
             {
                 DtPy = NPy.getDtPy(dt, ic);
                 str1 = DfName + "<-data.frame(";
                 str2 = "";
+                DataView dv = dt.DefaultView;
                 for (int i = 0; i < ic; i++)
                 {
+
                     string strcn = dt.Columns[i].ColumnName;
-                    str2 += @"," + strcn + "=c(";
-                    str3 = "";
-                    for (int j = 0; j < ir; j++)
-                    {
-                        string strcvz = dt.Rows[j][i].ToString();
-                        if (dt.Columns[i].DataType.Name == "String")
-                        {
-                            string strcvpy = DtPy.Select("cn='" + strcn + "' AND cvz = '" + strcvz + "'")[0][2].ToString();
-                            str3 += @",'" + strcvpy + "'";
-                        }
-                        else
-                        {
-                            str3 += @"," + strcvz;
-                        }
-                    }
-                    str2 += str3.Substring(1) + ")";
+                    DataTable dtc = dv.ToTable(false, strcn);
+                    ColStr cs = new ColStr(dtc, DtPy, ir);
+                    Thread t = new Thread(new ThreadStart(cs.setStrCol));
+                    t.Start();
+                    lt.Add(t);
+                    ///Thread t = new Thread(new ThreadStart());
+                    //string strcn = dt.Columns[i].ColumnName;
+                    //str2 += @"," + strcn + "=c(";
+                    //str3 = "";
+                    //for (int j = 0; j < ir; j++)
+                    //{
+                    //    string strcvz = dt.Rows[j][i].ToString();
+                    //    if (dt.Columns[i].DataType.Name == "String")
+                    //    {
+                    //        string strcvpy = DtPy.Select("cn='" + strcn + "' AND cvz = '" + strcvz + "'")[0][2].ToString();
+                    //        str3 += @",'" + strcvpy + "'";
+                    //    }
+                    //    else
+                    //    {
+                    //        str3 += @"," + strcvz;
+                    //    }
+                    //}
+                    //str2 += str3.Substring(1) + ")";
                 }
-                str1 += str2.Substring(1) + ")";
+                while (ic != RColList.getInstance().Count)
+                {
+                    Thread.Sleep(30000);
+                }
+                foreach (Thread t in lt)
+                {
+                    t.Abort();
+                }
+                RColList rcl = RColList.getInstance();
+                str2 = string.Join(",", rcl);
+                str1 += str2 + ")";
                 DfR = str1;
+                rcl.Clear();
             }
         }
 
@@ -157,4 +203,43 @@ namespace Rlib
             }
         }
     }
+
+    public class ColStr
+    {
+        DataTable dtcol;
+        DataTable DtPy;
+        int ir;
+
+        public ColStr(DataTable dc, DataTable dp, int i)
+        {
+            dtcol = dc;
+            DtPy = dp;
+            ir = i;
+        }
+        public void setStrCol()
+        {
+            string str2 = "";
+            string str3 = "";
+            string strcn = dtcol.Columns[0].ColumnName;
+            str2 += @"" + strcn + "=c(";
+            str3 = "";
+            for (int j = 0; j < ir; j++)
+            {
+                string strcvz = dtcol.Rows[j][0].ToString();
+                if (dtcol.Columns[0].DataType.Name == "String")
+                {
+                    string strcvpy = DtPy.Select("cn='" + strcn + "' AND cvz = '" + strcvz + "'")[0][2].ToString();
+                    str3 += @",'" + strcvpy + "'";
+                }
+                else
+                {
+                    str3 += @"," + strcvz;
+                }
+            }
+            str2 += str3.Substring(1) + ")";
+            RColList rl = RColList.getInstance();
+            rl.Add(str2);
+        }
+    }
+
 }

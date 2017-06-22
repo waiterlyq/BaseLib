@@ -76,7 +76,7 @@ namespace Pylib
                 }
                 dtCNpy.Rows.Add(strcnC, strcnE);
             }
-            return null;
+            return dtCNpy;
         }
 
     }
