@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Threading;
 using Pylib;
+using Loglib;
+using System.Threading.Tasks;
+using System;
 
 namespace Rlib
 {
@@ -139,55 +142,42 @@ namespace Rlib
             int ir = dt.Rows.Count;
             int ic = dt.Columns.Count;
             string str1, str2, str3;
-            List<Thread> lt = new List<Thread>();
-            if (ir > 0)
+            //List<Thread> lt = new List<Thread>();
+            Task[] ts = new Task[ic];
+            try
             {
-                DtPy = NPy.getDtPy(dt, ic);
-                str1 = DfName + "<-data.frame(";
-                str2 = "";
-                DataView dv = dt.DefaultView;
-                for (int i = 0; i < ic; i++)
+                if (ir > 0)
                 {
-
-                    string strcn = dt.Columns[i].ColumnName;
-                    DataTable dtc = dv.ToTable(false, strcn);
-                    ColStr cs = new ColStr(dtc, DtPy, ir);
-                    Thread t = new Thread(new ThreadStart(cs.setStrCol));
-                    t.Start();
-                    lt.Add(t);
-                    ///Thread t = new Thread(new ThreadStart());
-                    //string strcn = dt.Columns[i].ColumnName;
-                    //str2 += @"," + strcn + "=c(";
-                    //str3 = "";
-                    //for (int j = 0; j < ir; j++)
-                    //{
-                    //    string strcvz = dt.Rows[j][i].ToString();
-                    //    if (dt.Columns[i].DataType.Name == "String")
-                    //    {
-                    //        string strcvpy = DtPy.Select("cn='" + strcn + "' AND cvz = '" + strcvz + "'")[0][2].ToString();
-                    //        str3 += @",'" + strcvpy + "'";
-                    //    }
-                    //    else
-                    //    {
-                    //        str3 += @"," + strcvz;
-                    //    }
-                    //}
-                    //str2 += str3.Substring(1) + ")";
+                    DtPy = NPy.getDtPy(dt, ic);
+                    str1 = DfName + "<-data.frame(";
+                    str2 = "";
+                    for (int i = 0; i < ic; i++)
+                    {
+                        string strcn = dt.Columns[i].ColumnName;
+                        DataTable dtc = dt.DefaultView.ToTable(false, strcn);
+                        ColStr cs = new ColStr(dtc, DtPy, ir);
+                        ts[i] = new Task(cs.setStrCol);
+                        ts[i].Start();
+                    }
+                    dt.Dispose();
+                    Task.WaitAll(ts);
+                    foreach (Task t in ts)
+                    {
+                        t.Dispose();
+                    }
+                    RColList rcl = RColList.getInstance();
+                    str2 = string.Join(",", rcl);
+                    str1 += str2 + ")";
+                    DfR = str1;
+                    rcl.Clear();
                 }
-                while (ic != RColList.getInstance().Count)
-                {
-                    Thread.Sleep(30000);
-                }
-                foreach (Thread t in lt)
-                {
-                    t.Abort();
-                }
-                RColList rcl = RColList.getInstance();
-                str2 = string.Join(",", rcl);
-                str1 += str2 + ")";
-                DfR = str1;
-                rcl.Clear();
             }
+            catch (Exception e)
+            {
+                DfR = "";
+                MyLog.writeLog("ERROR", logtype.Error, e);
+            }
+            
         }
 
         public DataTable DtPy
