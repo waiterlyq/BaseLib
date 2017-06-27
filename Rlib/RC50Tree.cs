@@ -215,6 +215,10 @@ namespace Rlib
                     }
                 }
                 strDescribeCn = strFactorNameCn + " " + strOperatorCn + " " + strFactorValueCn;
+                if(strResultCn !="" && iCoverCount==0 )
+                {
+                    continue;
+                }
                 DtDstree.Rows.Add(Guid.NewGuid().ToString(), ModGUID, strid, strpid, strFactorName, strFactorNameCn, strOperator, strOperatorCn, strFactorValue, strFactorValueCn, strDescribe, strDescribeCn, strResult, strResultCn, iCoverCount, iErroCount);
             }
         }
