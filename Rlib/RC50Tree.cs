@@ -267,9 +267,9 @@ namespace Rlib
         {
             DtFactors = new DataTable();
             ///因素GUID
-            DtFactors.Columns.Add("FactorGUID");
+            DtFactors.Columns.Add("FactorGUID", typeof(System.Guid));
             ///模型GUID
-            DtFactors.Columns.Add("ModGUID");
+            DtFactors.Columns.Add("ModGUID", typeof(System.Guid));
             ///因素名称
             DtFactors.Columns.Add("Factorname");
             ///因素中文名称

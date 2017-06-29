@@ -225,7 +225,7 @@ namespace Rlib
             }
         }
 
-        public RC50(string strData, string strFormula, string strC5Name = "module", string strRules = "F", int itrials = 10, double dcf = 0.25, int imc = 10, string strCtName = "ct")
+        public RC50(string strData, string strFormula, int imc = 10, string strC5Name = "module", string strRules = "F", int itrials = 10, double dcf = 0.25, string strCtName = "ct")
         {
             Data = strData;
             Formula = strFormula;
@@ -285,7 +285,7 @@ namespace Rlib
                         strResult = getStringByR(strR);
                         strR = C5Name + "$size";
                         iResult = getIntByR(strR);
-                        if (!string.IsNullOrEmpty(strResult) && iResult != -1)
+                        if (!string.IsNullOrEmpty(strResult) && iResult != -1 && iResult != 1)
                         {
                             string strtree = getSpecifiedString(strResult, "tree");
                             string strfactors = getSpecifiedString(strResult, "factors");
