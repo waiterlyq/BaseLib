@@ -58,7 +58,7 @@ namespace DBLib
                 }
                 catch (Exception e)
                 {
-                    MyLog.writeLog("ERROR", logtype.Error, e);
+                    MyLog.writeLog("ERROR", e);
                     return null;
                 }
             }
@@ -112,7 +112,7 @@ namespace DBLib
             }
             catch (Exception e)
             {
-                MyLog.writeLog("ERROR", logtype.Error, e);
+                MyLog.writeLog("ERROR", e);
                 return null;
             }
 
@@ -177,7 +177,7 @@ namespace DBLib
             }
             catch (Exception e)
             {
-                MyLog.writeLog("ERROR", logtype.Error, e);
+                MyLog.writeLog("ERROR", e);
                 return i;
             }
 
@@ -239,7 +239,7 @@ namespace DBLib
             }
             catch (Exception e)
             {
-                MyLog.writeLog("ERROR", logtype.Error, e);
+                MyLog.writeLog("ERROR", e);
                 return i;
             }
             return i;
@@ -329,7 +329,7 @@ namespace DBLib
             }
             catch (Exception e)
             {
-                MyLog.writeLog("ERROR", logtype.Error, e);
+                MyLog.writeLog("ERROR", e);
                 return o;
             }
             return o;
@@ -412,7 +412,7 @@ namespace DBLib
             }
             catch (Exception e)
             {
-                MyLog.writeLog("ERROR", logtype.Error, e);
+                MyLog.writeLog("ERROR", e);
                 return sqldr;
             }
 
@@ -451,7 +451,7 @@ namespace DBLib
             }
             catch (Exception ex)
             {
-                MyLog.writeLog("ERROR", logtype.Error, ex);
+                MyLog.writeLog("ERROR", ex);
                 throw ex;
             }
             finally
@@ -489,7 +489,7 @@ namespace DBLib
             }
             catch (Exception ex)
             {
-                MyLog.writeLog("ERROR", logtype.Error, ex);
+                MyLog.writeLog("ERROR", ex);
                 throw ex;
             }
             finally

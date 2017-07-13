@@ -175,7 +175,7 @@ namespace Rlib
             catch (Exception e)
             {
                 DfR = "";
-                MyLog.writeLog("ERROR", logtype.Error, e);
+                MyLog.writeLog("ERROR", e);
             }
             
         }

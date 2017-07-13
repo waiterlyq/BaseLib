@@ -13,7 +13,7 @@ namespace Loglib
         /// </summary>
         /// <param name="Type">类型</param>
         /// <param name="text"></param>
-        public static void writeLog(string text, logtype Type = logtype.Error,Exception e=null)
+        public static void writeLog(string text,Exception e=null, logtype Type = logtype.Error)
         {
             switch (Type)
             {

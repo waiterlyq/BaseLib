@@ -39,7 +39,7 @@ namespace Rlib
             }
             catch (Exception e)
             {
-                MyLog.writeLog("ERROR", logtype.Error, e);
+                MyLog.writeLog("ERROR",  e);
                 return "ERROR";
             }
             return strResult;
@@ -54,7 +54,7 @@ namespace Rlib
             }
             catch (Exception e)
             {
-                MyLog.writeLog("ERROR", logtype.Error, e);
+                MyLog.writeLog("ERROR", e);
                 return -1;
             }
             return iResult;
@@ -74,7 +74,7 @@ namespace Rlib
             }
             catch (Exception e)
             {
-                MyLog.writeLog("ERROR", logtype.Error, e);
+                MyLog.writeLog("ERROR", e);
                 return false;
             }
         }
