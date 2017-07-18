@@ -5,11 +5,17 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loglib", "Loglib\Loglib.csproj", "{ACEF5DD9-AC1F-43FD-A718-B44CF28BD140}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBLib", "DBLib\DBLib.csproj", "{505CD7B2-95B6-4F8E-9F60-2A74F1DE392E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBlib", "DBLib\DBlib.csproj", "{505CD7B2-95B6-4F8E-9F60-2A74F1DE392E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rlib", "Rlib\Rlib.csproj", "{C6EF5ECD-9FAA-47AF-8FE8-B9B50CDCC51C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pylib", "Pylib\Pylib.csproj", "{CEE4AC90-EBCB-48D9-B69C-7EA122A5475B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Csvlib", "CsvLib\Csvlib.csproj", "{DD992F91-4622-4070-9A2C-081407E68745}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Encodinglib", "Encodinglib\Encodinglib.csproj", "{72A8E9D7-9B2B-4981-AC54-6637108105BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Excellib", "Excellib\Excellib.csproj", "{2296F89E-011E-468B-A7B6-7BABED503936}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +39,18 @@ Global
 		{CEE4AC90-EBCB-48D9-B69C-7EA122A5475B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CEE4AC90-EBCB-48D9-B69C-7EA122A5475B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CEE4AC90-EBCB-48D9-B69C-7EA122A5475B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD992F91-4622-4070-9A2C-081407E68745}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD992F91-4622-4070-9A2C-081407E68745}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD992F91-4622-4070-9A2C-081407E68745}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD992F91-4622-4070-9A2C-081407E68745}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72A8E9D7-9B2B-4981-AC54-6637108105BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72A8E9D7-9B2B-4981-AC54-6637108105BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72A8E9D7-9B2B-4981-AC54-6637108105BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72A8E9D7-9B2B-4981-AC54-6637108105BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2296F89E-011E-468B-A7B6-7BABED503936}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2296F89E-011E-468B-A7B6-7BABED503936}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2296F89E-011E-468B-A7B6-7BABED503936}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2296F89E-011E-468B-A7B6-7BABED503936}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

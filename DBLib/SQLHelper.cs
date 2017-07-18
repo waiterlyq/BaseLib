@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 using System.Configuration;
 using Loglib;
 
-namespace DBLib
+namespace DBlib
 {
     public class SQLHelper
     {
