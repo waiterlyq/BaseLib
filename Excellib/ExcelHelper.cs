@@ -10,7 +10,7 @@ using System.Data;
 using Loglib;
 
 
-namespace NetUtilityLib
+namespace Excellib
 {
     public class ExcelHelper : IDisposable
     {
@@ -32,7 +32,7 @@ namespace NetUtilityLib
         /// <param name="isColumnWritten">DataTable的列名是否要导入</param>
         /// <param name="sheetName">要导入的excel的sheet的名称</param>
         /// <returns>导入数据行数(包含列名那一行)</returns>
-        public int DataTableToExcel(DataTable data, string sheetName, bool isColumnWritten)
+        public int DataTableToExcel(DataTable data, string sheetName = "Sheet1", bool isColumnWritten = true)
         {
             int i = 0;
             int j = 0;
@@ -89,13 +89,71 @@ namespace NetUtilityLib
             }
         }
 
+
+        /// <summary>
+        /// 获取excel表头
+        /// </summary>
+        /// <param name="sheetName"></param>
+        /// <param name="isFirstRowColumn"></param>
+        /// <returns></returns>
+        public DataTable GetExcelFieldName(string sheetName = "Sheet1", bool isFirstRowColumn = true)
+        {
+            ISheet sheet = null;
+            DataTable dt = new DataTable();
+            dt.Columns.Add("FieldName");
+            try
+            {
+                fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+                if (fileName.IndexOf(".xlsx") > 0) // 2007版本
+                    workbook = new XSSFWorkbook(fs);
+                else if (fileName.IndexOf(".xls") > 0) // 2003版本
+                    workbook = new HSSFWorkbook(fs);
+
+                if (sheetName != null)
+                {
+                    sheet = workbook.GetSheet(sheetName);
+                    if (sheet == null) //如果没有找到指定的sheetName对应的sheet，则尝试获取第一个sheet
+                    {
+                        sheet = workbook.GetSheetAt(0);
+                    }
+                }
+                else
+                {
+                    sheet = workbook.GetSheetAt(0);
+                }
+                if (sheet != null)
+                {
+                    IRow firstRow = sheet.GetRow(0);
+                    int cellCount = firstRow.LastCellNum; //一行最后一个cell的编号 即总的列数
+                    for (int i = firstRow.FirstCellNum; i < cellCount; ++i)
+                    {
+                        ICell cell = firstRow.GetCell(i);
+                        if (cell != null)
+                        {
+                            string cellValue = cell.StringCellValue;
+                            DataRow dr = dt.NewRow();
+                            dr[0] = cellValue;
+                            dt.Rows.Add(dr);
+
+                        }
+                    }
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+                MyLog.writeLog("ERROR", e);
+                return null;
+            }
+        }
+
         /// <summary>
         /// 将excel中的数据导入到DataTable中
         /// </summary>
         /// <param name="sheetName">excel工作薄sheet的名称</param>
         /// <param name="isFirstRowColumn">第一行是否是DataTable的列名</param>
         /// <returns>返回的DataTable</returns>
-        public DataTable ExcelToDataTable(string sheetName, bool isFirstRowColumn)
+        public DataTable ExcelToDataTable(string sheetName = "Sheet1", bool isFirstRowColumn = true)
         {
             ISheet sheet = null;
             DataTable data = new DataTable();

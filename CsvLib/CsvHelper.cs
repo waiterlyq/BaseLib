@@ -8,7 +8,7 @@ using Loglib;
 using Encodinglib;
 using System.Threading.Tasks;
 
-namespace CsvLib
+namespace Csvlib
 {
     public class CsvHelper
     {
@@ -65,10 +65,74 @@ namespace CsvLib
                 sw.Close();
                 fs.Close();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 MyLog.writeLog("ERROR", e);
-            } 
+            }
+        }
+
+
+        /// <summary>
+        /// 获取列名
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public static DataTable GetFieldName(string filePath)
+        {
+            using (DataTable dt = new DataTable())
+            {
+                dt.Columns.Add("FieldName");
+                try
+                {
+                    Encoding encoding = EncodingType.GetFileEncodeType(filePath); //Encoding.ASCII;//
+
+                    FileStream fs = new FileStream(filePath, System.IO.FileMode.Open, System.IO.FileAccess.Read);
+
+                    //StreamReader sr = new StreamReader(fs, Encoding.UTF8);
+                    StreamReader sr = new StreamReader(fs, encoding);
+                    //string fileContent = sr.ReadToEnd();
+                    //encoding = sr.CurrentEncoding;
+                    //记录每次读取的一行记录
+                    string strLine = "";
+                    string[] tableHead = null;
+                    //标示列数
+                    int columnCount = 0;
+                    //标示是否是读取的第一行
+                    bool IsFirst = true;
+                    //逐行读取CSV中的数据
+                    while ((strLine = sr.ReadLine()) != null)
+                    {
+                        //strLine = Common.ConvertStringUTF8(strLine, encoding);
+                        //strLine = Common.ConvertStringUTF8(strLine);
+
+                        if (IsFirst == true)
+                        {
+                            tableHead = strLine.Split(',');
+                            IsFirst = false;
+                            columnCount = tableHead.Length;
+                            //创建列
+                            for (int i = 0; i < columnCount; i++)
+                            {
+                                DataRow dr = dt.NewRow();
+                                dr[0] = tableHead[i];
+                                dt.Rows.Add(dr);
+                            }
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                    sr.Close();
+                    fs.Close();
+                    return dt;
+                }
+                catch (Exception e)
+                {
+                    MyLog.writeLog("ERROR", e);
+                    return dt;
+                }
+            }
         }
 
         /// <summary>
@@ -136,12 +200,12 @@ namespace CsvLib
                 fs.Close();
                 return dt;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 MyLog.writeLog("ERROR", e);
                 return dt;
             }
-            
+
         }
     }
 }
