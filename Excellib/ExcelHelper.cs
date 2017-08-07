@@ -244,7 +244,12 @@ namespace Excellib
                 if (disposing)
                 {
                     if (fs != null)
+                    {
+                        fs.Dispose();
+                        workbook.Dispose();
                         fs.Close();
+                        workbook.Close();
+                    }
                 }
 
                 fs = null;

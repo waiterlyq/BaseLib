@@ -15,25 +15,47 @@ namespace Encodinglib
             {
                 if (buffer[0] == 0xEF && buffer[1] == 0xBB)
                 {
+                    br.Dispose();
+                    br.Close();
+                    fs.Dispose();
+                    fs.Close();
                     return System.Text.Encoding.UTF8;
                 }
                 else if (buffer[0] == 0xFE && buffer[1] == 0xFF)
                 {
+                    br.Dispose();
+                    br.Close();
+                    fs.Dispose();
+                    fs.Close();
                     return System.Text.Encoding.BigEndianUnicode;
                 }
                 else if (buffer[0] == 0xFF && buffer[1] == 0xFE)
                 {
+                    br.Dispose();
+                    br.Close();
+                    fs.Dispose();
+                    fs.Close();
                     return System.Text.Encoding.Unicode;
                 }
                 else
                 {
+                    br.Dispose();
+                    br.Close();
+                    fs.Dispose();
+                    fs.Close();
                     return System.Text.Encoding.Default;
                 }
             }
             else
             {
+                br.Dispose();
+                br.Close();
+                fs.Dispose();
+                fs.Close();
                 return System.Text.Encoding.Default;
             }
+          
+
         }
     }
 }

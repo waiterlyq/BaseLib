@@ -62,7 +62,9 @@ namespace Csvlib
                     }
                     sw.WriteLine(data);
                 }
+                sw.Dispose();
                 sw.Close();
+                fs.Dispose();
                 fs.Close();
             }
             catch (Exception e)
@@ -123,7 +125,9 @@ namespace Csvlib
                             break;
                         }
                     }
+                    sr.Dispose();
                     sr.Close();
+                    fs.Dispose();
                     fs.Close();
                     return dt;
                 }
@@ -142,70 +146,72 @@ namespace Csvlib
         /// <returns>返回读取了CSV数据的DataTable</returns>
         public static DataTable OpenCSV(string filePath)
         {
-            DataTable dt = new DataTable();
-            try
+            using (DataTable dt = new DataTable())
             {
-                Encoding encoding = EncodingType.GetFileEncodeType(filePath); //Encoding.ASCII;//
-
-                FileStream fs = new FileStream(filePath, System.IO.FileMode.Open, System.IO.FileAccess.Read);
-
-                //StreamReader sr = new StreamReader(fs, Encoding.UTF8);
-                StreamReader sr = new StreamReader(fs, encoding);
-                //string fileContent = sr.ReadToEnd();
-                //encoding = sr.CurrentEncoding;
-                //记录每次读取的一行记录
-                string strLine = "";
-                //记录每行记录中的各字段内容
-                string[] aryLine = null;
-                string[] tableHead = null;
-                //标示列数
-                int columnCount = 0;
-                //标示是否是读取的第一行
-                bool IsFirst = true;
-                //逐行读取CSV中的数据
-                while ((strLine = sr.ReadLine()) != null)
+                try
                 {
-                    //strLine = Common.ConvertStringUTF8(strLine, encoding);
-                    //strLine = Common.ConvertStringUTF8(strLine);
+                    Encoding encoding = EncodingType.GetFileEncodeType(filePath); //Encoding.ASCII;//
 
-                    if (IsFirst == true)
+                    FileStream fs = new FileStream(filePath, System.IO.FileMode.Open, System.IO.FileAccess.Read);
+
+                    //StreamReader sr = new StreamReader(fs, Encoding.UTF8);
+                    StreamReader sr = new StreamReader(fs, encoding);
+                    //string fileContent = sr.ReadToEnd();
+                    //encoding = sr.CurrentEncoding;
+                    //记录每次读取的一行记录
+                    string strLine = "";
+                    //记录每行记录中的各字段内容
+                    string[] aryLine = null;
+                    string[] tableHead = null;
+                    //标示列数
+                    int columnCount = 0;
+                    //标示是否是读取的第一行
+                    bool IsFirst = true;
+                    //逐行读取CSV中的数据
+                    while ((strLine = sr.ReadLine()) != null)
                     {
-                        tableHead = strLine.Split(',');
-                        IsFirst = false;
-                        columnCount = tableHead.Length;
-                        //创建列
-                        for (int i = 0; i < columnCount; i++)
+                        //strLine = Common.ConvertStringUTF8(strLine, encoding);
+                        //strLine = Common.ConvertStringUTF8(strLine);
+
+                        if (IsFirst == true)
                         {
-                            DataColumn dc = new DataColumn(tableHead[i]);
-                            dt.Columns.Add(dc);
+                            tableHead = strLine.Split(',');
+                            IsFirst = false;
+                            columnCount = tableHead.Length;
+                            //创建列
+                            for (int i = 0; i < columnCount; i++)
+                            {
+                                DataColumn dc = new DataColumn(tableHead[i]);
+                                dt.Columns.Add(dc);
+                            }
+                        }
+                        else
+                        {
+                            aryLine = strLine.Split(',');
+                            DataRow dr = dt.NewRow();
+                            for (int j = 0; j < columnCount; j++)
+                            {
+                                dr[j] = aryLine[j];
+                            }
+                            dt.Rows.Add(dr);
                         }
                     }
-                    else
+                    if (aryLine != null && aryLine.Length > 0)
                     {
-                        aryLine = strLine.Split(',');
-                        DataRow dr = dt.NewRow();
-                        for (int j = 0; j < columnCount; j++)
-                        {
-                            dr[j] = aryLine[j];
-                        }
-                        dt.Rows.Add(dr);
+                        dt.DefaultView.Sort = tableHead[0] + " " + "asc";
                     }
+                    sr.Dispose();
+                    sr.Close();
+                    fs.Dispose();
+                    fs.Close();
+                    return dt;
                 }
-                if (aryLine != null && aryLine.Length > 0)
+                catch (Exception e)
                 {
-                    dt.DefaultView.Sort = tableHead[0] + " " + "asc";
+                    MyLog.writeLog("ERROR", e);
+                    return dt;
                 }
-
-                sr.Close();
-                fs.Close();
-                return dt;
             }
-            catch (Exception e)
-            {
-                MyLog.writeLog("ERROR", e);
-                return dt;
-            }
-
         }
     }
 }
