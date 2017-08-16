@@ -26,6 +26,33 @@ namespace DBlib
         #region 执行查询，返回DataTable对象-----------------------
 
 
+        public bool IsReaderUID(string strUID)
+        {
+            string strSql = @"SELECT  COUNT(1) + IS_SRVROLEMEMBER('sysadmin', '" + strUID + "')";
+            strSql += "+ IS_SRVROLEMEMBER('serveradmin', '" + strUID + "')";
+            strSql += "+ IS_SRVROLEMEMBER('setupadmin', '" + strUID + "')";
+            strSql += "+ IS_SRVROLEMEMBER('securityadmin', '" + strUID + "')";
+            strSql += "+ IS_SRVROLEMEMBER('processadmin', '" + strUID + "')";
+            strSql += "+ IS_SRVROLEMEMBER('dbcreator', '" + strUID + "') + IS_SRVROLEMEMBER('diskadmin','" + strUID + "')";
+            strSql += "+ IS_SRVROLEMEMBER('bulkadmin', '" + strUID + "')";
+            strSql += "FROM sysusers Users ,";
+            strSql += "sysusers Roles,";
+            strSql += "sysmembers Members";
+            strSql += "WHERE   Roles.uid = Members.groupuid";
+            strSql += "AND Roles.issqlrole = 1";
+            strSql += "AND Users.uid = Members.memberuid";
+            strSql += "AND Users.name = '" + strUID + "'";
+            strSql += "AND Roles.name IN ('db_accessadmin', 'db_backupoperator',";
+            strSql += "'db_datawriter', 'db_ddladmin', 'db_owner',";
+            strSql += "'db_securityadmin ' )";
+            int iSR = int.Parse(GetObject(strSql).ToString());
+            if (iSR > 0)
+            {
+                return false;
+            }
+            return true;
+        }
+
         public DataTable GetTable(string strSQL)
         {
             return GetTable(strSQL, null);
