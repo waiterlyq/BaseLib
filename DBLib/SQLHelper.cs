@@ -25,7 +25,11 @@ namespace DBlib
 
         #region 执行查询，返回DataTable对象-----------------------
 
-
+        /// <summary>
+        /// 判断是否只读客户
+        /// </summary>
+        /// <param name="strUID"></param>
+        /// <returns></returns>
         public bool IsReaderUID(string strUID)
         {
             string strSql = @"SELECT  COUNT(1) + IS_SRVROLEMEMBER('sysadmin', '" + strUID + "')";
