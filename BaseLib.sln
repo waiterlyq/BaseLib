@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Excellib", "Excellib\Excell
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Filelib", "Filelib\Filelib.csproj", "{61E40A8D-AC4D-488B-BA2A-EE73F6AFE034}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wxlib", "Wxlib\Wxlib.csproj", "{B32096BD-D00E-4023-A75E-320BCB034CFA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{61E40A8D-AC4D-488B-BA2A-EE73F6AFE034}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61E40A8D-AC4D-488B-BA2A-EE73F6AFE034}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61E40A8D-AC4D-488B-BA2A-EE73F6AFE034}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B32096BD-D00E-4023-A75E-320BCB034CFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B32096BD-D00E-4023-A75E-320BCB034CFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B32096BD-D00E-4023-A75E-320BCB034CFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B32096BD-D00E-4023-A75E-320BCB034CFA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
