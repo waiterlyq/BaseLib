@@ -89,7 +89,7 @@ namespace DBlib
                 }
                 catch (Exception e)
                 {
-                    MyLog.writeLog("ERROR", e);
+                    Log.Error(e.Message);
                     return null;
                 }
             }
@@ -143,7 +143,7 @@ namespace DBlib
             }
             catch (Exception e)
             {
-                MyLog.writeLog("ERROR", e);
+                Log.Error(e.Message);
                 return null;
             }
 
@@ -208,7 +208,7 @@ namespace DBlib
             }
             catch (Exception e)
             {
-                MyLog.writeLog("ERROR", e);
+                Log.Error(e.Message);
                 return i;
             }
 
@@ -270,7 +270,7 @@ namespace DBlib
             }
             catch (Exception e)
             {
-                MyLog.writeLog("ERROR", e);
+                Log.Error(e.Message);
                 return i;
             }
             return i;
@@ -360,7 +360,7 @@ namespace DBlib
             }
             catch (Exception e)
             {
-                MyLog.writeLog("ERROR", e);
+                Log.Error(e.Message);
                 return o;
             }
             return o;
@@ -443,7 +443,7 @@ namespace DBlib
             }
             catch (Exception e)
             {
-                MyLog.writeLog("ERROR", e);
+                Log.Error(e.Message);
                 return sqldr;
             }
 
@@ -482,7 +482,7 @@ namespace DBlib
             }
             catch (Exception ex)
             {
-                MyLog.writeLog("ERROR", ex);
+                Log.Error(ex.Message);
                 throw ex;
             }
             finally
@@ -520,7 +520,7 @@ namespace DBlib
             }
             catch (Exception ex)
             {
-                MyLog.writeLog("ERROR", ex);
+                Log.Error(ex.Message);
                 throw ex;
             }
             finally

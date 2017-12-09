@@ -301,7 +301,7 @@ namespace Rlib
             }
             catch (Exception e)
             {
-                MyLog.writeLog("ERROR",e);
+                Log.Error(e.Message);
                 return null;
             }
             return null;

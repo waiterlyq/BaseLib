@@ -175,7 +175,7 @@ namespace Rlib
             catch (Exception e)
             {
                 DfR = "";
-                MyLog.writeLog("ERROR", e);
+                Log.Error(e.Message);
             }
             
         }

@@ -84,7 +84,7 @@ namespace Excellib
             }
             catch (Exception e)
             {
-                MyLog.writeLog("ERROR", e);
+                Log.Error(e.Message);
                 return -1;
             }
         }
@@ -142,7 +142,7 @@ namespace Excellib
             }
             catch (Exception e)
             {
-                MyLog.writeLog("ERROR", e);
+                Log.Error(e.Message);
                 return null;
             }
         }
@@ -226,7 +226,7 @@ namespace Excellib
             }
             catch (Exception e)
             {
-                MyLog.writeLog("ERROR", e);
+                Log.Error(e.Message);
                 return null;
             }
         }

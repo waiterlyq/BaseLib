@@ -69,7 +69,7 @@ namespace Csvlib
             }
             catch (Exception e)
             {
-                MyLog.writeLog("ERROR", e);
+                Log.Error(e.Message);
             }
         }
 
@@ -133,7 +133,7 @@ namespace Csvlib
                 }
                 catch (Exception e)
                 {
-                    MyLog.writeLog("ERROR", e);
+                    Log.Error(e.Message);
                     return dt;
                 }
             }
@@ -208,10 +208,73 @@ namespace Csvlib
                 }
                 catch (Exception e)
                 {
-                    MyLog.writeLog("ERROR", e);
+                    Log.Error(e.Message);
                     return dt;
                 }
             }
+        }
+        /// <summary>
+        /// 将CSV文件的数据读取到DataTable中
+        /// </summary>
+        /// <param name="fileName">CSV文件路径</param>
+        /// <returns>返回读取了CSV数据的DataTable</returns>
+        public static DataTable OpenCSV(string filePath, DataTable dt,int n =1)
+        {
+            StreamReader reader = new StreamReader(filePath, Encoding.Default);
+            int i = 0, m = 0;
+            try
+            {
+                reader.Peek();
+                while (reader.Peek() > 0)
+                {
+                    m = m + 1;
+                    string str = reader.ReadLine();
+
+                    string[] split = str.Split(',');
+
+                    System.Data.DataRow dr = dt.NewRow();
+
+                    if (m >= n + 1)
+                    {
+
+                        for (i = 0; i < split.Length; i++)
+                        {
+
+                            if (dt.Columns[i].DataType == typeof(int))
+                            {
+                                int temp = 0;
+                                int.TryParse(split[i].ToString(), out temp);
+                                dr[i] = temp;
+                            }
+                            if (dt.Columns[i].DataType == typeof(string))
+                            {
+                                string temp = split[i].ToString();
+                                dr[i] = temp;
+                            }
+                            if (dt.Columns[i].DataType == typeof(double))
+                            {
+                                double temp = 0.00;
+                                double.TryParse(split[i].ToString(), out temp);
+                                dr[i] = temp;
+                            }
+                            if (dt.Columns[i].DataType == typeof(Guid))
+                            {
+                                Guid temp;
+                                Guid.TryParse(split[i].ToString(), out temp);
+                                dr[i] = temp;
+                            }
+                        }
+                        dt.Rows.Add(dr);
+                    }
+                }
+                return dt;
+            }
+            catch(Exception e)
+            {
+                Log.Error(e.Message);
+                return null;
+            }
+           
         }
     }
 }

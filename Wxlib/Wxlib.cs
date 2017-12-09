@@ -64,11 +64,12 @@ namespace Wxlib
             try
             {
                 WxAt wa = JsonConvert.DeserializeObject<WxAt>(strReturn);
+                Log.Info(strReturn);
                 return wa;
             }
             catch (Exception e)
             {
-                MyLog.writeLog(strReturn, e);
+                 Log.Error(e.Message);
                 throw e;
             }
         }
@@ -78,19 +79,20 @@ namespace Wxlib
         /// </summary>
         /// <param name="strcode"></param>
         /// <returns></returns>
-        public static WxOpenIdAt GetOpenIdAccess_Token(string strcode)
+        public static string GetOpenIdAccess_Token(string strcode)
         {
             string url = @" https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + appid + "&secret=" + appsecret + "&code=" + strcode + "&grant_type=authorization_code ";
             WebClient wc = new WebClient();
             string strReturn = wc.DownloadString(url);
             try
             {
-                WxOpenIdAt woa = JsonConvert.DeserializeObject<WxOpenIdAt>(strReturn);
-                return woa;
+
+                Log.Info(strReturn);
+                return strReturn;
             }
             catch (Exception e)
             {
-                MyLog.writeLog(strReturn, e);
+                Log.Error(e.Message);
                 throw e;
             }
         }
@@ -119,19 +121,20 @@ namespace Wxlib
         /// </summary>
         /// <param name="woa"></param>
         /// <returns></returns>
-        public static WxUserInfo GetWxUserInfo(WxOpenIdAt woa)
+        public static string GetWxUserInfo(string str)
         {
+            WxOpenIdAt woa = JsonConvert.DeserializeObject<WxOpenIdAt>(str);
             string url = @" https://api.weixin.qq.com/sns/userinfo?access_token=" + woa.access_token + "&openid=" + woa.openid + "&lang=zh_CN ";
             WebClient wc = new WebClient();
             string strReturn = wc.DownloadString(url);
             try
             {
-                WxUserInfo wu = JsonConvert.DeserializeObject<WxUserInfo>(strReturn);
-                return wu;
+                Log.Error(strReturn);
+                return strReturn;
             }
            catch(Exception e)
             {
-                MyLog.writeLog(strReturn, e);
+                Log.Error(e.Message);
                 throw e;
             }
         }
