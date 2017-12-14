@@ -10,6 +10,7 @@ namespace DBlib
     {
         //连接字符串
         string strConn;
+        int iTimeOut;
 
         public SQLHelper(string connstring = null)
         {
@@ -21,6 +22,13 @@ namespace DBlib
             {
                 strConn = connstring;
             }
+            int iout = 0;
+            int.TryParse(ConfigurationManager.AppSettings["sqlTimeOut"].ToString(), out iout);
+            if(iout<1800)
+            {
+                iout = 1800;
+            }
+            iTimeOut = iout; 
         }
 
         #region 执行查询，返回DataTable对象-----------------------
@@ -133,7 +141,7 @@ namespace DBlib
                 {
                     SqlDataAdapter da = new SqlDataAdapter(strSQL, conn);
                     da.SelectCommand.CommandType = cmdtype;
-                    da.SelectCommand.CommandTimeout = 1800;
+                    da.SelectCommand.CommandTimeout = iTimeOut;
                     if (pas != null)
                     {
                         da.SelectCommand.Parameters.AddRange(pas);
@@ -196,7 +204,7 @@ namespace DBlib
                 {
                     SqlCommand cmd = new SqlCommand(strSQL, conn);
                     cmd.CommandType = cmdType;
-                    cmd.CommandTimeout = 1800;
+                    cmd.CommandTimeout = iTimeOut;
                     if (paras != null)
                     {
                         cmd.Parameters.AddRange(paras);
